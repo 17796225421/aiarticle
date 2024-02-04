@@ -19,7 +19,7 @@ public class GptService {
             .build();
 
     private final String apiUrl = "https://api.onechat.fun/v1/chat/completions";
-    private final String apiKey = "sk-c25d32ec3a3f64cec6d36b8da55449dac97301dfbd46fc0c";
+    private final String apiKey = "sk-LxTHoBaDL0Yp8kDuE0FdD964466d4a97B7Ab466aE1CcB7Db";
 
     // 将OCR文本转换为GPT文本
     public String generateText(String ocrText) throws IOException {
