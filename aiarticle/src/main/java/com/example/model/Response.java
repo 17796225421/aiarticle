@@ -2,7 +2,16 @@ package com.example.model;
 
 public class Response {
     private String gptDesc;
-    private byte[] image;
+
+    public String getImageBase64() {
+        return imageBase64;
+    }
+
+    public void setImageBase64(String imageBase64) {
+        this.imageBase64 = imageBase64;
+    }
+
+    private String imageBase64;
 
     public String getGptDesc() {
         return gptDesc;
@@ -10,14 +19,6 @@ public class Response {
 
     public void setGptDesc(String gptDesc) {
         this.gptDesc = gptDesc;
-    }
-
-    public byte[] getImage() {
-        return image;
-    }
-
-    public void setImage(byte[] image) {
-        this.image = image;
     }
 
     // getters and setters

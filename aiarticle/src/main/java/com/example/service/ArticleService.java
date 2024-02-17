@@ -4,11 +4,13 @@ import com.example.model.Request;
 import com.example.model.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
+import javax.imageio.ImageIO;
+import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.io.*;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Base64;
 
 @Service
 public class ArticleService {
@@ -55,10 +57,28 @@ public class ArticleService {
 
         // 当 returnImage 为 true 时，才将图片转化为 byte[]
         if (request.isReturnImage()) {
-            // 读取图片文件，将其转换为byte[]
+            // 读取图片文件，将其转换为 BufferedImage
             Path imagePath = Paths.get(screenshotPngPath);
-            byte[] image = Files.readAllBytes(imagePath);
-            response.setImage(image);
+            BufferedImage bufferedImage = ImageIO.read(imagePath.toFile());
+
+            // 创建一个新的 BufferedImage，类型为 TYPE_INT_RGB，不支持透明
+            BufferedImage newBufferedImage = new BufferedImage(bufferedImage.getWidth(), bufferedImage.getHeight(), BufferedImage.TYPE_INT_RGB);
+
+            // 把原来的图片绘制到这个新的 BufferedImage 上，TYPE_INT_RGB 类型的 BufferedImage 不支持透明，所以透明部分会被白色填充
+            newBufferedImage.createGraphics().drawImage(bufferedImage, 0, 0, Color.WHITE, null);
+
+            // 将 BufferedImage 压缩为 JPG
+            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+            ImageIO.write(newBufferedImage, "jpg", byteArrayOutputStream);
+
+            // 将输出流转换为 byte[]
+            byte[] image = byteArrayOutputStream.toByteArray();
+
+            // 将 byte[] 转换为 Base64 编码的字符串
+            String imageBase64 = Base64.getEncoder().encodeToString(image);
+
+            // 将 base64 编码的字符串存入 response
+            response.setImageBase64(imageBase64);
         }
 
         return response;
