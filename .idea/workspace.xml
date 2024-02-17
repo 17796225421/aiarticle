@@ -5,13 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d73fe5d3-961c-4694-998b-9b82b4853ae3" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/ocr/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/aiarticle/src/main/java/com/example/service/ArticleService.java" beforeDir="false" afterPath="$PROJECT_DIR$/aiarticle/src/main/java/com/example/service/ArticleService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/aiarticle/src/main/java/com/example/service/GptService.java" beforeDir="false" afterPath="$PROJECT_DIR$/aiarticle/src/main/java/com/example/service/GptService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ocr/wxocr.py" beforeDir="false" afterPath="$PROJECT_DIR$/ocr/wxocr.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/screenshot/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/screenshot/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/screenshot/websiteScreenshot.js" beforeDir="false" afterPath="$PROJECT_DIR$/screenshot/websiteScreenshot.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -35,7 +29,7 @@
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/zhouzihong/Desktop/aiarticle&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/zhouzihong/Desktop/aiarticle/aiarticle&quot;,
     &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
     &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
     &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;

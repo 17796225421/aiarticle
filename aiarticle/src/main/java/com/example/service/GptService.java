@@ -54,7 +54,7 @@ public class GptService {
 
     private JsonObject buildJsonRequestBody(String ocrText) {
         JsonObject jsonObject = new JsonObject();
-        jsonObject.addProperty("model", "gpt-4-all");
+        jsonObject.addProperty("model", "gpt-4-32k");
         jsonObject.addProperty("stream", false);
 
         JsonArray messages = new JsonArray();
