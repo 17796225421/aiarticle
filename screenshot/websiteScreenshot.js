@@ -35,6 +35,7 @@ async function run(req) {
         // 设置cookie
         await page.setCookie(...cookies);
 
+        console.log('访问url：' + process.argv[2]);
         await page.goto(process.argv[2]);
         await page.waitForTimeout(5000);
 
