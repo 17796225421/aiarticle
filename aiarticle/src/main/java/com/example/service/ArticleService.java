@@ -18,21 +18,25 @@ public class ArticleService {
     private GptService gptService;
 
     public Response process(Request request) throws IOException, InterruptedException {
-        // 定义脚本和图片的路径
+        // 定义脚本路径
         String screenshotScriptPath = "C:\\Users\\zhouzihong\\Desktop\\aiarticle\\screenshot\\websiteScreenshot.js";
-        String screenshotPngPath = "C:\\Users\\zhouzihong\\Desktop\\aiarticle\\screenshot\\websiteScreenshot.png";
         String pythonPath = "C:\\Users\\zhouzihong\\Desktop\\aiarticle\\ocr\\venv\\Scripts\\python.exe";
         String wxocrScriptPath = "C:\\Users\\zhouzihong\\Desktop\\aiarticle\\ocr\\wxocr.py";
-        String wxocrTxtPath = "C:\\Users\\zhouzihong\\Desktop\\aiarticle\\ocr\\wxocr.txt";
+
+        // 创建临时文件
+        File screenshotPngFile = File.createTempFile("websiteScreenshot", ".png");    // 创建临时的websiteScreenshot.png文件
+        File wxocrTxtFile = File.createTempFile("wxocr", ".txt");    // 创建临时的wxocr.txt文件
+        String screenshotPngPath = screenshotPngFile.getAbsolutePath();    // 获取临时文件的完整路径
+        String wxocrTxtPath = wxocrTxtFile.getAbsolutePath();    // 获取临时文件的完整路径
 
         // 调用websiteScreenshot.websiteScreenshot.png
-        ProcessBuilder pb = new ProcessBuilder("node", screenshotScriptPath, request.getUrl());
+        ProcessBuilder pb = new ProcessBuilder("node", screenshotScriptPath, request.getUrl(), screenshotPngPath);
         pb.redirectOutput(ProcessBuilder.Redirect.INHERIT); // 重定向输出到控制台
         Process process = pb.start();
         process.waitFor();
 
         // 调用wxocr.py将screenshot.png转换为OCR文本
-        pb = new ProcessBuilder(pythonPath, wxocrScriptPath, screenshotPngPath);
+        pb = new ProcessBuilder(pythonPath, wxocrScriptPath, screenshotPngPath, wxocrTxtPath);
         pb.redirectOutput(ProcessBuilder.Redirect.INHERIT); // 重定向Python脚本的输出到控制台
         pb.redirectErrorStream(true); // 合并标准错误流和标准输出流
         process = pb.start();
@@ -80,6 +84,9 @@ public class ArticleService {
             // 将 base64 编码的字符串存入 response
             response.setImageBase64(imageBase64);
         }
+
+        screenshotPngFile.delete();
+        wxocrTxtFile.delete();
 
         return response;
     }

@@ -8,14 +8,14 @@ wechat_dir = "D:\\app\\WeChat\\[3.9.9.43]"
 sys.stdout.reconfigure(encoding='utf-8')
 sys.stderr.reconfigure(encoding='utf-8')
 
-def ocr_result_callback(img_path: str, results: dict):
+def ocr_result_callback(img_path: str, results: dict, output_file):
     print("OCR识别成功，正在聚合识别的文本部分...")  # 添加打印语句
     aggregated_text = '\n'.join([result['text'] for result in results['ocrResult']])
     print("文本聚合成功，识别结果为：")  # 添加打印语句
-    with open('../ocr/wxocr.txt', 'w', encoding='utf-8') as f:  # 将识别的文本写入到文本文件中
+    with open(output_file, 'w', encoding='utf-8') as f:  # 将识别的文本写入到文本文件中
         f.write(aggregated_text)
 
-def main(img_path):
+def main(img_path, output_file):
     print("正在初始化OCR管理器...")  # 添加打印语句
     ocr_manager = OcrManager(wechat_dir)
     print("正在设置WeChatOcr目录...")  # 添加打印语句
@@ -23,7 +23,7 @@ def main(img_path):
     print("正在设置微信所在路径...")  # 添加打印语句
     ocr_manager.SetUsrLibDir(wechat_dir)
     print("正在设置OCR识别结果的回调函数...")  # 添加打印语句
-    ocr_manager.SetOcrResultCallback(ocr_result_callback)
+    ocr_manager.SetOcrResultCallback(lambda img_path, results: ocr_result_callback(img_path, results, output_file))
     print("正在启动OCR服务...")  # 添加打印语句
     ocr_manager.StartWeChatOCR()
     print("OCR服务启动成功，正在识别图片...")  # 添加打印语句
@@ -38,4 +38,5 @@ def main(img_path):
 
 if __name__ == "__main__":
     img_path = sys.argv[1]
-    main(img_path)
+    output_file = sys.argv[2]
+    main(img_path, output_file)

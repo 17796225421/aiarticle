@@ -38,8 +38,8 @@ async function run(req) {
         await page.goto(process.argv[2]);
         await page.waitForTimeout(5000);
 
-        // 将截图保存为"websiteScreenshot.png"，并将其放在"screenshot"目录
-        await page.screenshot({path: 'C:\\Users\\zhouzihong\\Desktop\\aiarticle\\screenshot\\websiteScreenshot.png', fullPage: true})
+        // 将截图保存为给定的文件路径，这个路径由第三个命令行参数指定
+        await page.screenshot({path: process.argv[3], fullPage: true})
 
         console.log("截图完成");
 
