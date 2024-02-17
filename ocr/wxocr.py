@@ -3,7 +3,7 @@ import sys
 from wechat_ocr.ocr_manager import OcrManager, OCR_MAX_TASK_ID
 
 wechat_ocr_dir = "C:\\Users\\zhouzihong\\AppData\\Roaming\\Tencent\\WeChat\\XPlugin\\Plugins\\WeChatOCR\\7071\\extracted\\WeChatOCR.exe"
-wechat_dir = "D:\\app\\WeChat\\[3.9.9.35]"
+wechat_dir = "D:\\app\\WeChat\\[3.9.9.43]"
 
 sys.stdout.reconfigure(encoding='utf-8')
 sys.stderr.reconfigure(encoding='utf-8')

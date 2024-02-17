@@ -1,25 +1,30 @@
 package com.example.service;
 
+import com.example.model.Request;
+import com.example.model.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 @Service
 public class ArticleService {
     @Autowired
     private GptService gptService;
 
-    public String generateText(String url) throws IOException, InterruptedException {
+    public Response process(Request request) throws IOException, InterruptedException {
         // 定义脚本和图片的路径
-        String screenshotScriptPath = "../screenshot/websiteScreenshot.js";
-        String screenshotPngPath = "../screenshot/websiteScreenshot.png";
-        String pythonPath = "../ocr/venv/Scripts/python.exe";
-        String wxocrScriptPath = "../ocr/wxocr.py";
-        String wxocrTxtPath = "../ocr/wxocr.txt";
+        String screenshotScriptPath = "C:\\Users\\zhouzihong\\Desktop\\aiarticle\\screenshot\\websiteScreenshot.js";
+        String screenshotPngPath = "C:\\Users\\zhouzihong\\Desktop\\aiarticle\\screenshot\\websiteScreenshot.png";
+        String pythonPath = "C:\\Users\\zhouzihong\\Desktop\\aiarticle\\ocr\\venv\\Scripts\\python.exe";
+        String wxocrScriptPath = "C:\\Users\\zhouzihong\\Desktop\\aiarticle\\ocr\\wxocr.py";
+        String wxocrTxtPath = "C:\\Users\\zhouzihong\\Desktop\\aiarticle\\ocr\\wxocr.txt";
 
         // 调用websiteScreenshot.websiteScreenshot.png
-        ProcessBuilder pb = new ProcessBuilder("node", screenshotScriptPath, url);
+        ProcessBuilder pb = new ProcessBuilder("node", screenshotScriptPath, request.getUrl());
         pb.redirectOutput(ProcessBuilder.Redirect.INHERIT); // 重定向输出到控制台
         Process process = pb.start();
         process.waitFor();
@@ -42,6 +47,20 @@ public class ArticleService {
         reader.close();
 
         // 调用GptService将OCR文本转换为GPT文本
-        return gptService.generateText(ocrText);
+        String gptText = gptService.generateText(ocrText);  // 传入gptModel
+
+        // 创建并返回响应
+        Response response = new Response();
+        response.setGptDesc(gptText);
+
+        // 当 returnImage 为 true 时，才将图片转化为 byte[]
+        if (request.isReturnImage()) {
+            // 读取图片文件，将其转换为byte[]
+            Path imagePath = Paths.get(screenshotPngPath);
+            byte[] image = Files.readAllBytes(imagePath);
+            response.setImage(image);
+        }
+
+        return response;
     }
 }

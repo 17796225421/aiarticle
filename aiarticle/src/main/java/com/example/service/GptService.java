@@ -18,8 +18,8 @@ public class GptService {
             .readTimeout(120, TimeUnit.SECONDS) // 读取超时时间
             .build();
 
-    private final String apiUrl = "https://api.onechat.fun/v1/chat/completions";
-    private final String apiKey = "sk-LxTHoBaDL0Yp8kDuE0FdD964466d4a97B7Ab466aE1CcB7Db";
+    private final String apiUrl = "https://sapi.onechat.fun/v1/chat/completions";
+    private final String apiKey = "sk-7a33e89029e8b09cf75f948564e8d258cf7d5782eec3f076";
 
     // 将OCR文本转换为GPT文本
     public String generateText(String ocrText) throws IOException {
@@ -54,7 +54,7 @@ public class GptService {
 
     private JsonObject buildJsonRequestBody(String ocrText) {
         JsonObject jsonObject = new JsonObject();
-        jsonObject.addProperty("model", "gpt-4-32k");
+        jsonObject.addProperty("model", "gpt-3.5-turbo-0125");
         jsonObject.addProperty("stream", false);
 
         JsonArray messages = new JsonArray();
