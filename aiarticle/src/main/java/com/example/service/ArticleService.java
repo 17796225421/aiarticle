@@ -4,9 +4,15 @@ import com.example.model.Request;
 import com.example.model.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import javax.imageio.IIOImage;
 import javax.imageio.ImageIO;
+import javax.imageio.ImageWriteParam;
+import javax.imageio.ImageWriter;
+import javax.imageio.plugins.jpeg.JPEGImageWriteParam;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.awt.image.ColorConvertOp;
 import java.io.*;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -65,21 +71,11 @@ public class ArticleService {
             Path imagePath = Paths.get(screenshotPngPath);
             BufferedImage bufferedImage = ImageIO.read(imagePath.toFile());
 
-            // 创建一个新的 BufferedImage，类型为 TYPE_INT_RGB，不支持透明
-            BufferedImage newBufferedImage = new BufferedImage(bufferedImage.getWidth(), bufferedImage.getHeight(), BufferedImage.TYPE_INT_RGB);
-
-            // 把原来的图片绘制到这个新的 BufferedImage 上，TYPE_INT_RGB 类型的 BufferedImage 不支持透明，所以透明部分会被白色填充
-            newBufferedImage.createGraphics().drawImage(bufferedImage, 0, 0, Color.WHITE, null);
-
-            // 将 BufferedImage 压缩为 JPG
-            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-            ImageIO.write(newBufferedImage, "jpg", byteArrayOutputStream);
-
-            // 将输出流转换为 byte[]
-            byte[] image = byteArrayOutputStream.toByteArray();
+            // 将图片进行压缩
+            byte[] compressedImage = compressImage(bufferedImage, 500, 1f);
 
             // 将 byte[] 转换为 Base64 编码的字符串
-            String imageBase64 = Base64.getEncoder().encodeToString(image);
+            String imageBase64 = Base64.getEncoder().encodeToString(compressedImage);
 
             // 将 base64 编码的字符串存入 response
             response.setImageBase64(imageBase64);
@@ -89,5 +85,41 @@ public class ArticleService {
         wxocrTxtFile.delete();
 
         return response;
+    }
+
+    /**
+     * 按比例压缩图片并转换为灰度图像
+     * @param image 原图片
+     * @param targetWidth 目标宽度
+     * @param quality 目标质量（0.1-1.0）
+     * @return byte[] 压缩后的图片
+     * @throws IOException
+     */
+    public byte[] compressImage(BufferedImage image, int targetWidth, float quality) throws IOException {
+        // 计算目标高度，保持图片的原始宽高比
+        int originalWidth = image.getWidth();
+        int originalHeight = image.getHeight();
+        int targetHeight = (int) (originalHeight * ((double) targetWidth / originalWidth));
+
+        // 创建一个新的图片对象并转换为灰度图像
+        Image scaledImage = image.getScaledInstance(targetWidth, targetHeight, Image.SCALE_SMOOTH);
+        BufferedImage newImage = new BufferedImage(targetWidth, targetHeight, BufferedImage.TYPE_BYTE_GRAY);
+
+        // 绘制缩放后的图像
+        Graphics2D g2d = newImage.createGraphics();
+        g2d.drawImage(scaledImage, 0, 0, null);
+        g2d.dispose();
+
+        // 将图片转换为字节数组
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        JPEGImageWriteParam jpegParams = new JPEGImageWriteParam(null);
+        jpegParams.setCompressionMode(ImageWriteParam.MODE_EXPLICIT);
+        jpegParams.setCompressionQuality(quality);
+
+        ImageWriter writer = ImageIO.getImageWritersByFormatName("jpg").next();
+        writer.setOutput(ImageIO.createImageOutputStream(out));
+        writer.write(null, new IIOImage(newImage, null, null), jpegParams);
+
+        return out.toByteArray();
     }
 }
