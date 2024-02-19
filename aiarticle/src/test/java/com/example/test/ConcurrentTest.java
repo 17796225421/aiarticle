@@ -30,7 +30,7 @@ public class ConcurrentTest {
         // 创建一个RestTemplate对象，用于发送http请求
         RestTemplate restTemplate = new RestTemplate();
 
-        for (int i = 0; i < 50; i++) {
+        for (int i = 0; i < 200; i++) {
             service.execute(() -> {
                 // 发送http请求，并返回结果
                 ResponseEntity<Response> responseEntity = restTemplate.postForEntity(URL, request, Response.class);
