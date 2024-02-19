@@ -42,7 +42,7 @@ async function run(req) {
         // 将截图保存为给定的文件路径，这个路径由第三个命令行参数指定
         await page.screenshot({path: process.argv[3], fullPage: true})
 
-        console.log("截图完成");
+        console.log("截图完成"+ process.argv[2]);
 
         await browser.close();
     } catch (error) {

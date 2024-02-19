@@ -16,12 +16,12 @@ public class ArticleController {
 
     @PostMapping("/process")
     public Response process(@RequestBody Request request) throws IOException, InterruptedException {
-        System.out.println("开始处理请求");
+        System.out.println("开始处理请求"+request.getUrl());
 
         // 调用TextGenerationService的方法生成文本和图片
         Response response = articleService.process(request);
 
-        System.out.println("请求处理完成");
+        System.out.println("请求处理完成"+request.getUrl());
         return response;
     }
 }

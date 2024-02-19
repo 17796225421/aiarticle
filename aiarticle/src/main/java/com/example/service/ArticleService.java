@@ -41,12 +41,16 @@ public class ArticleService {
         Process process = pb.start();
         process.waitFor();
 
+        System.out.println("截图完成"+request.getUrl());
+
         // 调用wxocr.py将screenshot.png转换为OCR文本
         pb = new ProcessBuilder(pythonPath, wxocrScriptPath, screenshotPngPath, wxocrTxtPath);
         pb.redirectOutput(ProcessBuilder.Redirect.INHERIT); // 重定向Python脚本的输出到控制台
         pb.redirectErrorStream(true); // 合并标准错误流和标准输出流
         process = pb.start();
         process.waitFor();
+
+        System.out.println("ocr完成"+request.getUrl());
 
         // 读取OCR识别的文本
         BufferedReader reader = new BufferedReader(new FileReader(wxocrTxtPath));
@@ -64,6 +68,8 @@ public class ArticleService {
         // 创建并返回响应
         Response response = new Response();
         response.setGptDesc(gptText);
+
+        System.out.println("gpt完成"+request.getUrl());
 
         // 当 returnImage 为 true 时，才将图片转化为 byte[]
         if (request.isReturnImage()) {
