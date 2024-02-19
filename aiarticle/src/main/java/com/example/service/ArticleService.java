@@ -105,6 +105,13 @@ public class ArticleService {
         // 计算目标高度，保持图片的原始宽高比
         int originalWidth = image.getWidth();
         int originalHeight = image.getHeight();
+
+        // 如果长度大于宽度，裁剪到和宽度一样
+        if (originalHeight > originalWidth) {
+            image = image.getSubimage(0, 0, originalWidth, originalWidth);
+            originalHeight = originalWidth;
+        }
+
         int targetHeight = (int) (originalHeight * ((double) targetWidth / originalWidth));
 
         // 创建一个新的图片对象并转换为灰度图像
