@@ -5,9 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d73fe5d3-961c-4694-998b-9b82b4853ae3" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/aiarticle/src/main/resources/logback-spring.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/aiarticle/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/aiarticle/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/aiarticle/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/aiarticle/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/aiarticle/src/main/java/com/example/controller/ArticleController.java" beforeDir="false" afterPath="$PROJECT_DIR$/aiarticle/src/main/java/com/example/controller/ArticleController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/aiarticle/src/main/java/com/example/service/ArticleService.java" beforeDir="false" afterPath="$PROJECT_DIR$/aiarticle/src/main/java/com/example/service/ArticleService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/screenshot/websiteScreenshot.js" beforeDir="false" afterPath="$PROJECT_DIR$/screenshot/websiteScreenshot.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/aiarticle/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/aiarticle/src/main/resources/application.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
